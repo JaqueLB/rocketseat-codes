@@ -14,7 +14,8 @@ app.set('view engine', 'njk')
 app.use(express.urlencoded({ extended: false }))
 
 const ageMiddleware = (req, res, next) => {
-  if (req.query.age === 'undefined' || req.query.age === '') {
+  const { age } = req.query
+  if (isNaN(age) || !age) {
     return res.redirect('/')
   }
 

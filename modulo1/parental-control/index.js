@@ -3,6 +3,14 @@ const express = require('express')
 const app = express()
 app.use(express.urlencoded({ extended: false }))
 
+const ageMiddleware = (req, res, next) => {
+  if (!req.query.age) {
+    return res.redirect('/')
+  }
+
+  return next()
+}
+
 app.get('/', (req, res) => {
   return res.json({ message: 'Hello World!' })
 })
@@ -14,13 +22,13 @@ app.post('/check', (req, res) => {
   return res.redirect(`/minor?age=${req.body.age}`)
 })
 
-app.get('/major', (req, res) => {
+app.get('/major', ageMiddleware, (req, res) => {
   return res.json({
     age: `Você é maior de idade e possui ${req.query.age} anos.`
   })
 })
 
-app.get('/minor', (req, res) => {
+app.get('/minor', ageMiddleware, (req, res) => {
   return res.json({
     age: `Você é menor de idade e possui ${req.query.age} anos.`
   })

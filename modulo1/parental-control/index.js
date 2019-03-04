@@ -16,10 +16,16 @@ app.get('/', (req, res) => {
 })
 
 app.post('/check', (req, res) => {
-  if (req.body.age >= 18) {
-    return res.redirect(`/major?age=${req.body.age}`)
+  const age = req.body.age
+  if (!age) {
+    return res.redirect('/')
   }
-  return res.redirect(`/minor?age=${req.body.age}`)
+
+  if (age >= 18) {
+    return res.redirect(`/major?age=${age}`)
+  }
+
+  return res.redirect(`/minor?age=${age}`)
 })
 
 app.get('/major', ageMiddleware, (req, res) => {

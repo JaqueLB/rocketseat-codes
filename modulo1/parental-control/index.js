@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/check', (req, res) => {
-  const age = req.body.age
+  const { age } = req.body
   if (age >= 18) {
     return res.redirect(`/major?age=${age}`)
   }
@@ -35,15 +35,13 @@ app.post('/check', (req, res) => {
 })
 
 app.get('/major', ageMiddleware, (req, res) => {
-  return res.render('major', {
-    age: req.query.age
-  })
+  const { age } = req.query
+  return res.render('major', { age })
 })
 
 app.get('/minor', ageMiddleware, (req, res) => {
-  return res.render('minor', {
-    age: req.query.age
-  })
+  const { age } = req.query
+  return res.render('minor', { age })
 })
 
 app.listen(3000)

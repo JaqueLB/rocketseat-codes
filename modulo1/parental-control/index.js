@@ -22,7 +22,7 @@ const ageMiddleware = (req, res, next) => {
 }
 
 app.get('/', (req, res) => {
-  return res.json({ message: req.message })
+  return res.render('check')
 })
 
 app.post('/check', (req, res) => {
@@ -34,14 +34,14 @@ app.post('/check', (req, res) => {
 })
 
 app.get('/major', ageMiddleware, (req, res) => {
-  return res.json({
-    age: `Você é maior de idade e possui ${req.query.age} anos.`
+  return res.render('major', {
+    age: req.query.age
   })
 })
 
 app.get('/minor', ageMiddleware, (req, res) => {
-  return res.json({
-    age: `Você é menor de idade e possui ${req.query.age} anos.`
+  return res.render('minor', {
+    age: req.query.age
   })
 })
 

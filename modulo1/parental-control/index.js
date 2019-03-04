@@ -1,6 +1,16 @@
 const express = require('express')
+const nunjucks = require('nunjucks')
 
 const app = express()
+
+nunjucks.configure('views', {
+  autoescape: true,
+  express: app,
+  watch: true
+})
+
+app.set('view engine', 'njk')
+
 app.use(express.urlencoded({ extended: false }))
 
 const ageMiddleware = (req, res, next) => {

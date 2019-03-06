@@ -1,8 +1,22 @@
 {% extends "_layouts/default.njk" %}
 
 {% block body %}
-  <div class="content">
+  <div class="content" style="margin-right: 30px;">
     <strong>Olá, {{ user.name }}</strong>
+    <p>Seus Agendamentos de Hoje - {{ date }}</p>
+    {% for appointment in appointments %}
+      <div>
+        - {{ appointment.hour }} -
+      </div>
+      <div class="provider">
+        <div>
+          <img src="/files/{{ appointment.provider.avatar }}"/>
+          <strong>{{ appointment.provider.name }}</strong>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="content">
     <p>Inicie um agendamento escolhendo um profissional abaixo:</p>
     <ul class="providers">
       {% for provider in providers %}

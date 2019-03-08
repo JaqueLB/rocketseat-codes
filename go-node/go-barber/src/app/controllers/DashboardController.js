@@ -4,16 +4,23 @@ const moment = require('moment')
 
 class DashboardController {
   async index (req, res) {
+    const { id, provider } = req.session.user
+    if (provider) {
+      return res.redirect('/app/dashboard/provider')
+    }
+
     const providers = await User.findAll({ where: { provider: true } })
 
     // my appointments for today
-    const { id } = req.session.user
     const date = moment()
 
     const appointments = await Appointment.findAll({
       include: {
         model: User,
-        as: 'provider'
+        as: 'provider',
+        where: {
+          [Op.not]: id
+        }
       },
       where: {
         user_id: id,
@@ -23,7 +30,8 @@ class DashboardController {
             date.endOf('day').format()
           ]
         }
-      }
+      },
+      order: [['date', 'ASC']]
     })
 
     const myAppointments = appointments.map(a => {

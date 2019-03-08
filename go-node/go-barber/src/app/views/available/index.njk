@@ -1,3 +1,7 @@
+{% if hasAny === false %}
+  <div class="alert alert-error">Nenhum horário disponível</div>
+{% endif %}
+
 {% for hour in available %}
   <label class="{% if hour.available === false %}disabled{% endif %}" for="time-{{ hour.time }}">
     {% if hour.available === true %}

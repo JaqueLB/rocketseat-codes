@@ -48,7 +48,12 @@ class AvailableController {
       }
     })
 
-    return res.render('available/index', { available })
+    const hasAny =
+      available.filter(a => {
+        return a.available
+      }).length !== 0
+
+    return res.render('available/index', { available, hasAny })
   }
 }
 

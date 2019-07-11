@@ -66,13 +66,13 @@ class DashboardController {
         as: 'user'
       },
       where: {
-        provider_id: id
-        // date: {
-        //   [Op.between]: [
-        //     date.startOf('day').format(),
-        //     date.endOf('day').format()
-        //   ]
-        // }
+        provider_id: id,
+        date: {
+          [Op.between]: [
+            date.startOf('day').format(),
+            date.endOf('day').format()
+          ]
+        }
       },
       order: [['date', 'ASC']]
     })

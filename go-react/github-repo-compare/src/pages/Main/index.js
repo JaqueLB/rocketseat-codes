@@ -8,6 +8,7 @@ import moment from "moment";
 export default class Main extends Component {
   // informações vão refletir no render ao alterar
   state = {
+    repositoryError: false,
     repositoryInput: "",
     repositories: []
   };
@@ -22,11 +23,13 @@ export default class Main extends Component {
       repository.lastCommit = moment(repository.pushed_at).fromNow();
 
       this.setState({
+        repositoryError: false,
         repositoryInput: "",
         repositories: [...this.state.repositories, repository] // ... this.state.repositories está copiando o que já existe na variavel
       });
-    } catch (exception) {
-      console.log(exception);
+    } catch (error) {
+      this.setState({ repositoryError: true });
+      console.log(error);
     }
   };
 
@@ -35,7 +38,10 @@ export default class Main extends Component {
       <Container>
         <img src={logo} alt="Github Compare" />
 
-        <Form onSubmit={this.handleAddRepository}>
+        <Form
+          withError={this.state.repositoryError}
+          onSubmit={this.handleAddRepository}
+        >
           <input
             type="text"
             placeholder="usuário/repositório"

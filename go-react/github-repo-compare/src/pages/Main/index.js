@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png";
 import { Container, Form } from "./styles";
 import CompareList from "../../components/CompareList";
 import api from "../../services/api";
+import moment from "moment";
 
 export default class Main extends Component {
   // informações vão refletir no render ao alterar
@@ -14,13 +15,16 @@ export default class Main extends Component {
   handleAddRepository = async e => {
     e.preventDefault();
     try {
-      const response = await api.get(`/repos/${this.state.repositoryInput}`);
+      const { data: repository } = await api.get(
+        `/repos/${this.state.repositoryInput}`
+      );
+
+      repository.lastCommit = moment(repository.pushed_at).fromNow();
 
       this.setState({
         repositoryInput: "",
-        repositories: [...this.state.repositories, response.data] // ... this.state.repositories está copiando o que já existe na variavel
+        repositories: [...this.state.repositories, repository] // ... this.state.repositories está copiando o que já existe na variavel
       });
-      console.log(response);
     } catch (exception) {
       console.log(exception);
     }
